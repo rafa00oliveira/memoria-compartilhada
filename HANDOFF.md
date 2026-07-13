@@ -1,58 +1,46 @@
 # HANDOFF — estado da tarefa
 
-> Estado **temporário** do trabalho em andamento, para o próximo (Claude ou Codex) continuar sem depender da memória da conversa.
-> Instruções permanentes ficam no `README.md`. Contexto de longo prazo no `CONTEXTO.md`. Histórico no `SESSION_LOG.md`.
+> Estado **temporário** do trabalho em andamento, para o próximo (Claude ou Codex) continuar
+> sem depender da memória da conversa. Instruções permanentes: `README.md` / `AGENTS.md`.
+> Contexto de longo prazo: `CONTEXTO.md`. Histórico: `SESSION_LOG.md`.
+> **Mantenha sempre as seis seções abaixo.**
 
 _Atualizado: 2026-07-13._
 
-## Tarefa atual
-
-Transformar esta pasta numa memória compartilhada, versionada e **privada** no GitHub, para alternar entre Claude e Codex.
-
 ## Estado atual
 
-- Repositório Git **local** inicializado na branch `main`. Último commit: `7d32900`.
-- Arquivos base criados: `README.md`, `CONTEXTO.md`, `SESSION_LOG.md`, `.gitignore`, `docs/`, `work/`, `outputs/`.
-- `CONTEXTO.md` consolidado a partir da memória do Claude, **sem segredos**.
-- **Ainda NÃO existe repositório remoto no GitHub** nem `origin` configurado.
+- Repo `memoria-compartilhada` inicializado localmente, branch `main`, árvore limpa.
+- Ainda **sem repositório remoto no GitHub** e sem `origin`.
+- Modelo de trabalho por papéis (Autor / Revisor independente / Rafael autoriza) definido no `AGENTS.md`.
 
-## Decisões
+## Alterações feitas
 
-- A pasta versionada é a **subpasta isolada** `memoria-compartilhada/`. A raiz `C:\Users\Rafa00oliveira\Claude` NÃO é versionada — contém todos os projetos, com `.env`, `node_modules` e senhas em texto puro.
-- Segredos (senhas, tokens, chaves) **nunca** entram neste repo. Ficam em gerenciador de senhas.
-- README = permanente; HANDOFF = temporário; CONTEXTO = longo prazo; SESSION_LOG = histórico.
+- Criados: `README.md`, `CONTEXTO.md`, `SESSION_LOG.md`, `.gitignore`, `HANDOFF.md`, `AGENTS.md`, `sync-agents.ps1`.
+- `AGENTS.md` copiado para a raiz `C:\Users\Rafa00oliveira\Claude\` (cópia que o Codex lê automaticamente).
+- Pastas `docs/`, `work/`, `outputs/` com `.gitkeep`.
 
-## Próximos passos
+## Validação executada
 
-1. Criar o repositório privado no GitHub e dar push (bloqueado: `gh` não instalado e sem credencial nesta máquina — precisa do Rafael). Ver `README.md` / `SESSION_LOG.md` para os comandos.
-2. Após o push, preencher a URL do repo no `SESSION_LOG.md` e neste HANDOFF.
-3. Rafael validar a lista de "Próximos passos" do `CONTEXTO.md` (herdada da memória, pode estar desatualizada).
+- `git grep` confirmou que não há senhas/tokens nos arquivos versionados (só as frases de aviso).
+- `git log` / `git status`: 3+ commits, árvore limpa.
+- `sync-agents.ps1` roda e sincroniza a cópia da raiz.
 
-## Comandos de validação
+## Pendências e riscos
 
-```powershell
-cd C:\Users\Rafa00oliveira\Claude\memoria-compartilhada
-git status                 # árvore limpa esperada
-git log --oneline          # ver commits
-git remote -v              # vazio até criar o remoto
-# checagem de segredos (não deve retornar nada além das frases de aviso):
-git grep -iE "senha|password|token|secret" -- CONTEXTO.md
-```
+- **Pendência:** criar o repo privado no GitHub e dar push (bloqueado: `gh` não instalado, sem credencial — precisa do Rafael).
+- **Pendência:** revisar os "Próximos passos" do `CONTEXTO.md` (herdados da memória, podem estar desatualizados).
+- **Risco:** NÃO rodar `git init`/push na raiz `Claude\` — vazaria todos os projetos e segredos.
+- **Risco:** segredo commitado por engano é irreversível após push; conferir `.gitignore` antes de cada commit.
+- **Risco de divergência:** editar `AGENTS.md` só na fonte (`memoria-compartilhada/`) e rodar `sync-agents.ps1`.
 
-## Arquivos alterados nesta sessão
+## Próximo passo seguro
 
-- `README.md`, `CONTEXTO.md`, `SESSION_LOG.md`, `.gitignore` — criados.
-- `HANDOFF.md` — criado.
-- `docs/.gitkeep`, `work/.gitkeep`, `outputs/.gitkeep` — placeholders.
+Rafael cria o repositório privado no GitHub e dá o primeiro push (comandos no `README.md`).
+Depois, preencher a URL aqui e no `SESSION_LOG.md`.
 
-## Pendências
+## Operações que exigem autorização do usuário
 
-- Push para o GitHub (depende do Rafael autenticar).
-- Confirmar nome do repo / conta (`rafa00oliveira/memoria-compartilhada`).
-- Revisar "Próximos passos" do `CONTEXTO.md`.
-
-## Riscos
-
-- **Não rodar `git init`/push na raiz `Claude/`** — vazaria todos os projetos e segredos.
-- Só commitar segredo por engano é irreversível depois do push. `.gitignore` cobre `.env`/chaves; conferir antes de cada commit.
-- `CONTEXTO.md` pode ter fatos desatualizados (memória herdada) — tratar como rascunho até o Rafael validar.
+- `git push` / criação do repositório remoto.
+- Qualquer deploy (Vercel, GitHub Actions, GitHub Pages).
+- Migrations / DDL em ambiente remoto.
+- Troca de branch.

@@ -3,6 +3,28 @@
 Você vai trabalhar em vários projetos meus nesta máquina (Windows, PowerShell).
 Raiz: `C:\Users\Rafa00oliveira\Claude\`
 
+> **Fonte de verdade deste arquivo:** `memoria-compartilhada/AGENTS.md`.
+> A cópia na raiz é só pro Codex ler automaticamente — sincronize com `sync-agents.ps1`
+> (nunca edite a cópia da raiz à mão).
+
+## Papéis e fluxo
+
+Tanto o Claude quanto o Codex implementam **e** auditam. Não se separa "código" de "decisão";
+separa-se por **papel na tarefa**:
+
+| Papel | Responsabilidade |
+|---|---|
+| **Autor** | Implementa, testa, documenta e deixa um handoff objetivo |
+| **Revisor independente** | Lê o diff; procura regressões, segurança e casos de borda; valida se os testes realmente cobrem a mudança |
+| **Rafael (você)** | Autoriza operações irreversíveis: push, deploy, migrations/DDL remoto e troca de branch |
+
+Fluxo recomendado:
+1. Um de nós implementa **numa branch já existente, sem push**.
+2. Registra no `HANDOFF.md`: objetivo, arquivos alterados, testes executados, pendências e riscos.
+3. O outro faz **auditoria independente do diff** e aponta correções.
+4. O autor corrige e roda a validação final.
+5. Rafael decide sobre commit, push, deploy ou DDL remoto.
+
 ## Regras gerais (valem pra todos)
 
 - **Continuidade mora nos arquivos, não na memória da ferramenta.** Fonte confiável:
