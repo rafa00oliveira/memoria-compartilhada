@@ -23,7 +23,8 @@ Fluxo recomendado:
 2. Registra no `HANDOFF.md`: objetivo, arquivos alterados, testes executados, pendências e riscos.
 3. O outro faz **auditoria independente do diff** e aponta correções.
 4. O autor corrige e roda a validação final.
-5. Rafael decide sobre commit, push, deploy ou DDL remoto.
+5. O revisor **revisa de novo apenas os arquivos/trechos impactados** pelas correções e libera.
+6. Rafael decide sobre commit, push, deploy ou DDL remoto.
 
 ## Regras gerais (valem pra todos)
 
