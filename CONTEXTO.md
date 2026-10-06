@@ -1,10 +1,20 @@
 # CONTEXTO — Memória compartilhada (Rafael)
 
+- **É:** memória compartilhada de longo prazo do Rafael — perfil de trabalho, stack padrão e convenções, para alternar entre Claude e Codex sem repetir contexto.
+- **Para:** os agentes (Claude, Codex), não para pessoa nenhuma.
+- **Entrega típica:** nenhuma — é estado, não entregável.
+- **Fonte de dados:** as próprias sessões de trabalho.
+- **Estado:** ativo como **regras + teia de ponteiros** (`AGENTS.md`). Estado de projeto NÃO mora aqui: mora no `CONTEXTO.md` de cada repo. Seções abaixo de "Perfil de trabalho" são de 2026-07-13 e não são mantidas.
+- **Próxima ação:** commit + push deste repo (sessão de 2026-10-05 não tinha shell local) e criar o remoto privado no GitHub (nunca subiu).
+- **Não confundir com:** `~/.claude/projects/.../memory/` — aquilo é a memória automática do Claude Code; isto aqui é um arquivo escrito à mão.
+- **Atualizado:** 2026-10-05
+
+> **NUNCA colocar senha, token, chave de API ou dado bancário aqui.**
+
+---
+
 > Fonte de verdade de longo prazo para trabalhar alternando entre Claude e Codex.
 > Curto e atualizável. Histórico de sessões fica em `SESSION_LOG.md`.
-> **NUNCA colocar senhas, tokens, chaves de API ou dados bancários aqui.**
-
-_Última consolidação: 2026-07-13._
 
 ---
 
@@ -59,3 +69,7 @@ Cada projeto tem seu próprio `CONTEXTO.md` / `SESSION_LOG.md` na raiz do repo �
 
 Antes de trabalhar: `git pull`
 Ao salvar: `git add -A && git commit -m "mensagem clara em pt" && git push`
+
+## Log
+- 2026-10-05 · Claude · `AGENTS.md`: autonomia total (push/deploy/DDL/branch sem pedir) com guarda-corpos técnicos + seção "Teia" (onde buscar cada informação e como registrar); cópia da raiz atualizada · `AGENTS.md`, `../AGENTS.md`, `HANDOFF.md` · pendente: commit/push deste repo e criar remoto GitHub (sessão sem shell local; `gh` sem credencial).
+- 2026-10-05 · Claude · achados de segurança do destak-tasks (Mural + documentos) conferidos: já corrigidos em `2c92c26` (13/07) · `HANDOFF.md` · pendente: nada.

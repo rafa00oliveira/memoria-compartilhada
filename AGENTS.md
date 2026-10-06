@@ -7,52 +7,54 @@ Raiz: `C:\Users\Rafa00oliveira\Claude\`
 > A cópia na raiz é só pro Codex ler automaticamente — sincronize com `sync-agents.ps1`
 > (nunca edite a cópia da raiz à mão).
 
-## Papéis e fluxo
+## Autonomia (decisão do Rafael, 2026-10-05)
 
-Tanto o Claude quanto o Codex implementam **e** auditam. Não se separa "código" de "decisão";
-separa-se por **papel na tarefa**:
+O método já está testado: **execute sozinho, sem pedir permissão** — inclusive commit,
+`git push`, deploy, migrations/DDL remoto e troca de branch. Revisor independente
+(Claude ↔ Codex) é opcional, não etapa obrigatória.
 
-| Papel | Responsabilidade |
-|---|---|
-| **Autor** | Implementa, testa, documenta e deixa um handoff objetivo |
-| **Revisor independente** | Lê o diff; procura regressões, segurança e casos de borda; valida se os testes realmente cobrem a mudança |
-| **Rafael (você)** | Autoriza operações irreversíveis: push, deploy, migrations/DDL remoto e troca de branch |
+Autonomia não é atalho. Continuam valendo, sempre (são as regras que já evitaram estrago):
+- `npm run build` (e o teste/lint do repo) **antes** de qualquer push. Deploy = produção.
+- `git pull --rebase` antes do push. Nunca `--force`, nunca `--no-verify`.
+  Conflito de rebase: **para e relata** — não resolve às cegas.
+- Commit sai como `rnloliveira1@gmail.com` (`git config user.email`), senão a Vercel bloqueia.
+- DDL destrutivo (`DROP`, `TRUNCATE`, `DELETE`/`UPDATE` sem `WHERE`) só com backup/dump antes.
+- Depois do deploy, prova no ar (URL/endpoint real), não só "deu push".
+- Nunca segredo em arquivo versionado (`.env`, chave, token, senha).
+- Mover ou apagar arquivo do Rafael: mostra o plano antes (criar arquivo novo é livre).
 
-Fluxo recomendado:
-1. Um de nós implementa **numa branch já existente, sem push**.
-2. Registra no `HANDOFF.md`: objetivo, arquivos alterados, testes executados, pendências e riscos.
-3. O outro faz **auditoria independente do diff** e aponta correções.
-4. O autor corrige e roda a validação final.
-5. O revisor **revisa de novo apenas os arquivos/trechos impactados** pelas correções e libera.
-6. Rafael decide sobre commit, push, deploy ou DDL remoto.
+> Tradeoff assumido: mais velocidade, menos uma barreira contra erro em produção.
+> Caminho de volta: reintroduzir a linha "confirmação explícita antes de push/deploy/DDL".
 
-## Regras gerais (valem pra todos)
+## Teia — onde cada informação mora (ler nesta ordem, parar quando achar)
 
-- **Continuidade mora nos arquivos, não na memória da ferramenta.** Fonte confiável:
-  `HANDOFF.md`, `SESSION_LOG.md`, `CONTEXTO.md` e o `git log`. Leia-os antes de começar;
-  atualize `HANDOFF.md` (e `SESSION_LOG.md`) ao concluir a tarefa.
-- **Sequência segura antes de puxar mudanças:**
-  1. ler contexto → 2. `git status` → 3. confirmar branch e remotes (`git remote -v`) →
-  4. `git pull --rebase` **só com a árvore limpa**. Havendo WIP/alterações locais, preservar
-     (stash ou commit) e me avisar antes — o rebase pode parar ou exigir tratamento.
-- **Confirmação explícita minha** antes de: `git push`, deploy, migrations/DDL em ambiente
-  remoto, e troca de branch. Nunca fazer isso sozinho.
-- **Antes do primeiro commit em cada repo**, verificar `git config user.email` (deve ser
-  `rnloliveira1@gmail.com`) — `destak-crm` e `reformo-erp` rejeitam o deploy se o autor for outro.
-- Deploy = produção na maioria dos projetos. Cuidado redobrado.
-- Commits pequenos, mensagens em **português** e descritivas.
-- **Nunca** commitar segredos: `.env`, chaves, tokens, senhas. Ficam só local.
-- Sem travessão em textos que vão para o cliente.
-- Não assumir acesso operacional a Supabase/Vercel: depende das credenciais/CLIs/conectores
-  desta sessão. **Verificar antes de usar**, não presumir.
+| Pergunta | Onde buscar | Custo |
+|---|---|---|
+| Qual pasta é de qual assunto? | `~/PROJETOS.md` (mapa mestre) | 1 arquivo |
+| Estou na pasta certa? Como publica? O que já quebrou? | `CONTEXTO.md` mais próximo (cabeçalho de 8 linhas primeiro) | barato |
+| De onde vem o dado? | `DOCUMENTOS.md` da pasta | barato |
+| Como deve ser o `CONTEXTO.md`? | `~/PADRAO-CONTEXTO.md` | só se for criar |
+| O que mudou no código e quando? | `git log --oneline -20` no repo | barato |
+| Sessões antigas | `docs/historico/` do repo | só se preciso |
 
-## Projetos
+**Um fato, uma casa.** Este arquivo só guarda regras e ponteiros; o estado vivo de cada
+projeto mora no `CONTEXTO.md` dele e **prevalece** sobre qualquer coisa escrita aqui.
+
+### Registrar (obrigatório, é o que mantém a teia viva)
+1. **Antes de mexer:** ler o `CONTEXTO.md` mais próximo. Não existe? Criar na raiz do projeto.
+2. **Ao fechar cada marco:** uma linha no log do `CONTEXTO.md` —
+   `AAAA-MM-DD · Claude|Codex · o que · onde (arquivo/commit/URL) · pendente: ...`.
+   Mudou estado, fonte de dados ou forma de publicar? Atualiza o cabeçalho também.
+3. **Pasta ou entregável novo e durável:** uma linha de índice no `~/PROJETOS.md`.
+4. Registro no mesmo commit da mudança. Respeitar o teto de log (condensar, não empilhar).
+
+## Projetos (particularidades de deploy — detalhe vivo no CONTEXTO.md de cada um)
 
 **1) destak-tasks** — Next.js 16 + Supabase + Vercel
 - Deploy: GitHub Actions no push para `master`.
-- ATENÇÃO: repo local está na branch `melhoria-dashboard-ui` (WIP do dashboard).
-  NÃO troque de branch. Publicar via refspec: `git push origin melhoria-dashboard-ui:master`.
-- DDL/migrations: rodar via `db-run.mjs`.
+- ATENÇÃO: repo local está na branch `melhoria-dashboard-ui`.
+  Publicar via refspec: `git push origin melhoria-dashboard-ui:master`.
+- DDL/migrations: rodar via `db-run.mjs`; depois `npm run rls:audit`.
 
 **2) destak-crm** — Vite + React + Supabase + Vercel
 - Deploy: `git push` na `master`. Bloqueia se o commit não for de `rnloliveira1@gmail.com`.
@@ -61,7 +63,7 @@ Fluxo recomendado:
 **3) destak-produtividade (Cronos)** — monolito `index.html` vanilla JS + Supabase
 - Repo PÚBLICO do parceiro (`tropaupam-eng`); sou colaborador com push.
 - Deploy: GitHub Pages no push para `main` = produção real.
-- O parceiro pusha muito: seguir a sequência segura acima, sempre `git pull --rebase` antes.
+- O parceiro pusha muito: sempre `git pull --rebase` antes.
 
 **4) reformo-erp** — Next.js 16 + Supabase + Vercel — NO AR em reformoengenharia.com.br
 - Deploy: `git push main` → Vercel automático. Bloqueia se o autor não for `rnloliveira1@gmail.com`.
@@ -70,15 +72,14 @@ Fluxo recomendado:
 **5) quero-bahia-crm** — Next.js 16 + Supabase + Vercel
 - Deploy: `vercel --prod` (precisa da Vercel CLI logada).
 
-**6) memoria-compartilhada** — esta memória entre Claude e Codex
-- Só docs/estado. Repo privado. Mesmas regras de commit.
-- Ao terminar qualquer sessão, atualizar `HANDOFF.md` e `SESSION_LOG.md` aqui.
+**6) memoria-compartilhada** — este arquivo de regras + ponteiros
+- Só docs. Repo privado. Mesmas regras de commit.
 
-## Permissões necessárias
+## Gerais
 
-- Ler/escrever arquivos nas pastas acima.
-- Rodar `git`, `npm`, `node`, `vercel` — pedindo confirmação em push/deploy/DDL remoto.
-- Acesso de rede (npm install, git push, supabase, vercel).
-- Git autenticado no GitHub (conta `rafa00oliveira`; colaborador em `tropaupam-eng/destak-produtividade`).
-- Vercel CLI logada para o `quero-bahia-crm`.
-- Os `.env` de cada projeto presentes localmente (segredos só na máquina, nunca no Git).
+- Commits pequenos, mensagens em **português** e descritivas.
+- Sem travessão em textos que vão para o cliente.
+- Não assumir acesso operacional a Supabase/Vercel/GitHub: depende das credenciais/CLIs
+  desta sessão. **Verificar antes de usar**, não presumir.
+- Sem shell local na sessão? Faz o que der (editar arquivos), e registra no `CONTEXTO.md`
+  o que ficou sem commit/push para a próxima sessão com shell fechar.
