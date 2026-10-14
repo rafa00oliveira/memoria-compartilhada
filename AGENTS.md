@@ -53,7 +53,8 @@ projeto mora no `CONTEXTO.md` dele e **prevalece** sobre qualquer coisa escrita 
 **1) destak-tasks** — Next.js 16 + Supabase + Vercel
 - Deploy: GitHub Actions no push para `master`.
 - ATENÇÃO: repo local está na branch `melhoria-dashboard-ui`.
-  Publicar via refspec: `git push origin melhoria-dashboard-ui:master`.
+  Históricos divergidos: o push por refspec é recusado. Publicar por worktree de
+  `origin/master` + cherry-pick do commit (receita no topo do `CONTEXTO.md` do repo).
 - DDL/migrations: rodar via `db-run.mjs`; depois `npm run rls:audit`.
 
 **2) destak-crm** — Vite + React + Supabase + Vercel
