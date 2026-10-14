@@ -10,8 +10,11 @@ Raiz: `C:\Users\Rafa00oliveira\Claude\`
 ## Autonomia (decisão do Rafael, 2026-10-05)
 
 O método já está testado: **execute sozinho, sem pedir permissão** — inclusive commit,
-`git push`, deploy, migrations/DDL remoto e troca de branch. Revisor independente
-(Claude ↔ Codex) é opcional, não etapa obrigatória.
+`git push`, deploy, migrations/DDL remoto e troca de branch. Revisor independente é
+**obrigatório em tarefa de código não trivial** (decisão do Rafael, 2026-10-14; substitui a de
+05/10 que o deixava opcional): outra IA revisa o plano antes de construir e quem não construiu
+inspeciona o código, pela skill `claudex-loop` (`~/Claude/claudex-loop`, ficha de quem faz o quê em
+`skills/claudex-loop/EQUIPE.md`). Trivial (texto, typo, config de 1 linha) ou "sem revisão" ficam de fora.
 
 Autonomia não é atalho. Continuam valendo, sempre (são as regras que já evitaram estrago):
 - `npm run build` (e o teste/lint do repo) **antes** de qualquer push. Deploy = produção.
