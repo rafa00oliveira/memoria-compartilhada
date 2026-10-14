@@ -5,9 +5,9 @@
 - **Entrega típica:** nenhuma — é estado, não entregável.
 - **Fonte de dados:** as próprias sessões de trabalho.
 - **Estado:** ativo como **regras + teia de ponteiros** (`AGENTS.md`). Estado de projeto NÃO mora aqui: mora no `CONTEXTO.md` de cada repo. Seções abaixo de "Perfil de trabalho" são de 2026-07-13 e não são mantidas.
-- **Próxima ação:** commit + push deste repo (sessão de 2026-10-05 não tinha shell local) e criar o remoto privado no GitHub (nunca subiu).
+- **Próxima ação:** nenhuma pendente. O remoto privado existe (`github.com/rafa00oliveira/memoria-compartilhada`) e está em dia. Confere com: `git ls-remote origin main` = `git rev-parse HEAD`.
 - **Não confundir com:** `~/.claude/projects/.../memory/` — aquilo é a memória automática do Claude Code; isto aqui é um arquivo escrito à mão.
-- **Atualizado:** 2026-10-05
+- **Atualizado:** 2026-10-14 | provado: remoto = local (`ls-remote`) | NÃO provado: seções de 07-13
 
 > **NUNCA colocar senha, token, chave de API ou dado bancário aqui.**
 
@@ -73,3 +73,4 @@ Ao salvar: `git add -A && git commit -m "mensagem clara em pt" && git push`
 ## Log
 - 2026-10-05 · Claude · `AGENTS.md`: autonomia total (push/deploy/DDL/branch sem pedir) com guarda-corpos técnicos + seção "Teia" (onde buscar cada informação e como registrar); cópia da raiz atualizada · `AGENTS.md`, `../AGENTS.md`, `HANDOFF.md` · pendente: commit/push deste repo e criar remoto GitHub (sessão sem shell local; `gh` sem credencial).
 - 2026-10-05 · Claude · achados de segurança do destak-tasks (Mural + documentos) conferidos: já corrigidos em `2c92c26` (13/07) · `HANDOFF.md` · pendente: nada.
+- 2026-10-14 · Claude · `AGENTS.md`: destak-tasks publica por worktree + cherry-pick (push por refspec é recusado, históricos divergidos); cópia da raiz sincronizada · `699c01d` · pendente: nada.
