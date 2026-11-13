@@ -14,7 +14,7 @@ Histórico resumido das sessões. Uma entrada por sessão, mais recente no topo.
 - Manual aplicado: kit do MRP (`Desktop/univasf/PCP 2/08-Projeto-Ibacem-MRP/kit-sistema-mrp`) e OS de 9 itens para o
   app do Selo (`Desktop/Hopitasl Universitario/trabalho/OS-selo-manual-construcao-2026-11-12.md`; o dev respondeu "recebido").
 - Não feito: Node 26.x na Vercel (mrp-ibacem, selo-hu) × 24 no manual, sem decisão. A pesquisa do Gemini lançada para o
-  manual seguia rodando no fechamento: auditar antes de usar.
+  manual foi encerrada pelo Claude Code por falta de memória no PC, sem devolver nada; não foi relançada.
 - Próxima ação: conferir as respostas dos devs (MRP e Selo) e marcar na tabela F o que fechou, com a prova.
 
 ## 2026-07-13 — Auditoria independente do Destak Tasks
