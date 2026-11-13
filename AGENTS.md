@@ -18,7 +18,8 @@ inspeciona o código, pela skill `claudex-loop` (`~/Claude/claudex-loop`, ficha 
 
 Autonomia não é atalho. Continuam valendo, sempre (são as regras que já evitaram estrago):
 - `npm run build` (e o teste/lint do repo) **antes** de qualquer push. Deploy = produção.
-- `git pull --rebase` antes do push. Nunca `--force`, nunca `--no-verify`.
+- `git pull --rebase` antes do push. Nunca `--force`, nunca `--no-verify`. Árvore com arquivo de
+  outra sessão: receita de push do `~/PADRAO-CONTEXTO.md` (nunca `stash` nem `--autostash`).
   Conflito de rebase: **para e relata** — não resolve às cegas.
 - Commit sai como `rnloliveira1@gmail.com` (`git config user.email`), senão a Vercel bloqueia.
 - DDL destrutivo (`DROP`, `TRUNCATE`, `DELETE`/`UPDATE` sem `WHERE`) só com backup/dump antes.
@@ -81,6 +82,9 @@ projeto mora no `CONTEXTO.md` dele e **prevalece** sobre qualquer coisa escrita 
 
 ## Gerais
 
+- **Construir site ou software (projeto novo ou mudança de risco): seguir `MANUAL-CONSTRUCAO.md`**, nesta
+  pasta (passos P0 a P12, o que é obrigatório por nível e as falhas que estamos consertando). Cada tarefa de
+  código dentro dele segue a skill `fluxo-dev` (decisão do Rafael, 12/11/2026).
 - Commits pequenos, mensagens em **português** e descritivas.
 - Sem travessão em textos que vão para o cliente.
 - Não assumir acesso operacional a Supabase/Vercel/GitHub: depende das credenciais/CLIs
