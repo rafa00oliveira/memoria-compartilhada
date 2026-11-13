@@ -135,6 +135,9 @@ Erro que evita: prova de permissão ou seed gravando no banco que a equipe usa (
      ci:
        runs-on: ubuntu-latest
        timeout-minutes: 15
+       env:
+         NEXT_PUBLIC_SUPABASE_URL: https://exemplo.supabase.co
+         NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: chave-de-mentira-so-para-o-build
        steps:
          - uses: actions/checkout@v7
            with:
@@ -156,8 +159,9 @@ Erro que evita: prova de permissão ou seed gravando no banco que a equipe usa (
    repositórios. Caminho: Pro pelo GitHub Student Developer Pack (conferir a elegibilidade na página do pacote).
    Até lá, a regra vale por disciplina: ninguém publica com o `check` local vermelho, e o agente confere o resultado
    do CI do commit anterior (`gh run list -L 3`) antes do próximo push.
-3. O build no CI não recebe chave secreta. Se uma página precisar do banco no build, a página muda; a chave não vai
-   para o CI.
+3. O build no CI recebe só a URL e a chave publicável **de mentira** (no `env` acima): sem elas, o `next build` do
+   `mrp-ibacem` quebrou ao pré-renderizar uma página (testado em 12/11 num clone limpo; com elas, passou). O build do CI
+   não vai para o ar. A chave secreta nunca vai para o CI.
 
 Prova: o primeiro push mostra o check `ci` verde em `gh run list`; um commit de teste com uma chave falsa faz o
 gitleaks falhar.
@@ -200,8 +204,9 @@ Prova: a lista de migrations aplicadas bate com a pasta; a prova de RLS passa.
    aplica migration usa a conexão do próprio projeto (escopo de um projeto) ou o workflow com secret do GitHub, como
    o `aplicar-migration.yml` do `destak-crm` (que existe porque a porta do Postgres já ficou fechada na rede do
    Rafael, em 01/10/2026).
-4. Chave vazou (commit, print, mensagem): rotacionar na hora. Apagar o texto não desfaz o vazamento. A rotação é do
-   Rafael.
+4. Chave vazou (commit, print, mensagem): rotacionar na hora. Apagar o texto não desfaz o vazamento. Vale para a chave
+   secreta do Supabase, a chave de assinatura do JWT (trocá-la derruba as sessões de todos), o token pessoal e a
+   senha do banco. A rotação é do Rafael.
 5. Worktree terminada se apaga junto com o `.env.local` dela (com o plano mostrado antes).
 
 Prova: o gitleaks do CI passa; `grep -rl "sbp_" --include=".env*"` nas pastas de trabalho não acha nada.
@@ -216,9 +221,11 @@ Prova: o gitleaks do CI passa; `grep -rl "sbp_" --include=".env*"` nas pastas de
    A branch gera preview na Vercel, o CI roda e a revisão da outra IA é colada no corpo do PR. O agente pode fazer o
    merge sozinho (autonomia do `AGENTS.md`) depois do CI verde. Mudança pequena e sem risco pode ir direto na
    principal com o `check` local verde.
-4. Regra de negócio, conta, data, dinheiro e permissão ganham teste no mesmo commit (`node --test`). Não precisa
+4. Toda gravação (Server Action ou rota) confere login e papel no servidor e valida a entrada com zod antes de tocar
+   no banco. A checagem da tela não conta: qualquer pessoa logada chama a Server Action direto, sem passar pela tela.
+5. Regra de negócio, conta, data, dinheiro e permissão ganham teste no mesmo commit (`node --test`). Não precisa
    escrever suíte para o código antigo: o teste nasce quando o código é tocado.
-5. Commit lista os arquivos pelo nome (nunca `-A` nem `.`); mensagem em português dizendo o porquê.
+6. Commit lista os arquivos pelo nome (nunca `-A` nem `.`); mensagem em português dizendo o porquê.
 
 Prova: o PR (ou o commit) tem a saída do `check`, o teste novo e a revisão registrada.
 
@@ -249,14 +256,21 @@ comando.
 
 ### P10. Operação: backup, restauração e erros
 
-1. **Backup.** O plano grátis do Supabase não tem backup automático. N2 e N3 têm dump agendado (estrutura e dados,
-   com `supabase db dump` ou `pg_dump`, que pedem a senha do banco), guardado fora do Supabase (OneDrive ou Drive),
-   com o comando escrito no `CONTEXTO.md`. Projeto em plano pago: conferir no painel o que o plano guarda e por
+1. **Backup.** O plano grátis do Supabase não tem backup automático. N2 e N3 têm dump agendado (estrutura e dados),
+   guardado fora do Supabase (OneDrive ou Drive), com o comando escrito no `CONTEXTO.md`. Os dois caminhos pedem a
+   senha do banco:
+   - `supabase db dump`: roda o `pg_dump` dentro de um contêiner, então precisa do Docker;
+   - `pg_dump` do cliente do PostgreSQL, em versão igual ou maior que a do banco.
+   A conexão direta do Supabase é só IPv6. Em rede só IPv4 (a do Rafael já ficou assim), use a string do pooler
+   compartilhado em modo sessão. O PC do Rafael não tinha Docker nem `pg_dump` em 12/11: lá, o caminho é instalar o
+   cliente do PostgreSQL ou rodar o dump num job do GitHub Actions (o runner tem Docker), como o `destak-crm` já faz
+   com as migrations. Projeto em plano pago: conferir no painel o que o plano guarda e por
    quantos dias.
 2. **Fora do banco também se perde:** variáveis de ambiente, configuração do Auth (URLs, provedores, templates de
-   e-mail), Storage, cron, domínio. Liste no `CONTEXTO.md` onde cada um está configurado.
+   e-mail), arquivos do Storage (o dump leva as tabelas, não os arquivos), cron, domínio. Escreva no `CONTEXTO.md`
+   onde cada um está configurado e os valores que não são segredo, para recriar à mão.
 3. **Ensaio de restauração (N3):** uma vez por projeto e depois de cada mudança grande de estrutura. Restaura o dump
-   num banco vazio (local ou de teste) e confere a contagem de linhas por tabela contra o banco de origem. Só o
+   num banco vazio, de preferência o local (`supabase start`, com Docker), que não gasta um dos projetos grátis, e confere a contagem de linhas por tabela contra o banco de origem. Só o
    `quero-bahia-crm` tem essa prova hoje (14/10/2026).
 4. **RPO e RTO escritos** no `CONTEXTO.md` (quanto dado se aceita perder e em quanto tempo o sistema volta).
    Proposta para N3: perda máxima de um dia, volta em quatro horas. O Rafael confirma por projeto.
@@ -305,7 +319,7 @@ Cada linha tem a prova de quando foi levantada. "Hipótese" é o que não deu pa
 | F10 | Revisão sem registro | os agentes publicam direto na principal com a conta do Rafael; a revisão da outra IA fica, quando fica, em texto livre de commit | mudança de risco por PR com a revisão colada (P7); `ia nota` depois de auditar | P7 |
 | F11 | Cópia de regra editada à mão | `~/Claude/AGENTS.md` tinha uma linha (receita de push) que a fonte não tinha; o `sync-agents.ps1` teria apagado | corrigido em 12/11 (linha levada para a fonte); `sync-agents.ps1 -Check` na varredura do `fantastico` | P12 |
 | F12 | Erro sem registro em três apps | `erros_app` existe em `destak-crm`, `destak-tasks`, `reformo-erp`, `quero-bahia-crm` e `clube-poker`; falta em `selo-hu`, `crm-luiza` e `mrp-ibacem`; log da Vercel Hobby dura uma hora | migration da `erros_app` e o `catch` gravando nela, ao tocar o repositório | P10 |
-| F13 | Os quatro apps maiores não têm teste automático | `destak-crm`, `destak-tasks`, `reformo-erp` e `quero-bahia-crm`: zero arquivo `*.test.*`, e o `check` só compila (tipos, lint, build); as provas (`provaIsolamentoRLS.mjs` e outras) rodam à mão | teste nasce com o código tocado (P7.4); a prova de RLS entra no `check` quando houver banco de teste | P7, P5 |
+| F13 | Os quatro apps maiores não têm teste automático | `destak-crm`, `destak-tasks`, `reformo-erp` e `quero-bahia-crm`: zero arquivo `*.test.*`, e o `check` só compila (tipos, lint, build); as provas (`provaIsolamentoRLS.mjs` e outras) rodam à mão | teste nasce com o código tocado (P7.5); a prova de RLS entra no `check` quando houver banco de teste | P7, P5 |
 | F14 | Branch local que diverge da principal | `destak-tasks` trabalha em `melhoria-dashboard-ui`, divergida da `master`; publicar exige worktree e `cherry-pick` | alinhar a branch local com a `origin/master` (plano com o Rafael antes) | P2 |
 | F15 | "Pronto" pelo relato do agente | já aconteceu: memórias `workflow-vazio-nao-e-aprovado` e `simulacao-precisa-de-verificador` | coberto pelo `fluxo-dev` (Portão 4) e pela P8; manter | P8 |
 
