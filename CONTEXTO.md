@@ -4,10 +4,10 @@
 - **Para:** os agentes (Claude, Codex), não para pessoa nenhuma.
 - **Entrega típica:** nenhuma — é estado, não entregável.
 - **Fonte de dados:** as próprias sessões de trabalho.
-- **Estado:** ativo como **regras + teia de ponteiros** (`AGENTS.md`). Estado de projeto NÃO mora aqui: mora no `CONTEXTO.md` de cada repo. Seções abaixo de "Perfil de trabalho" são de 2026-07-13 e não são mantidas.
-- **Próxima ação:** nenhuma pendente. O remoto privado existe (`github.com/rafa00oliveira/memoria-compartilhada`) e está em dia. Confere com: `git ls-remote origin main` = `git rev-parse HEAD`.
+- **Estado:** ativo como **regras + teia de ponteiros** (`AGENTS.md`) e casa do **manual de construção** (`MANUAL-CONSTRUCAO.md`, v1.1 de 12/11/2026) e das decisões transversais (`docs/decisoes/`). Estado de projeto NÃO mora aqui: mora no `CONTEXTO.md` de cada repo. Seções abaixo de "Perfil de trabalho" são de 2026-07-13 e não são mantidas.
+- **Próxima ação:** marcar na tabela F do manual o que os devs do MRP e do Selo fecharem, com a prova. O remoto privado existe (`github.com/rafa00oliveira/memoria-compartilhada`) e está em dia. Confere com: `git ls-remote origin main` = `git rev-parse HEAD`.
 - **Não confundir com:** `~/.claude/projects/.../memory/` — aquilo é a memória automática do Claude Code; isto aqui é um arquivo escrito à mão.
-- **Atualizado:** 2026-10-14 | provado: remoto = local (`ls-remote`) | NÃO provado: seções de 07-13
+- **Atualizado:** 2026-11-12 | provado: remoto = local (`git cherry @{u}` vazio), `ls docs/decisoes` = 001 | NÃO provado: seções de 07-13
 
 > **NUNCA colocar senha, token, chave de API ou dado bancário aqui.**
 
@@ -74,3 +74,4 @@ Ao salvar: `git add -A && git commit -m "mensagem clara em pt" && git push`
 - 2026-10-05 · Claude · `AGENTS.md`: autonomia total (push/deploy/DDL/branch sem pedir) com guarda-corpos técnicos + seção "Teia" (onde buscar cada informação e como registrar); cópia da raiz atualizada · `AGENTS.md`, `../AGENTS.md`, `HANDOFF.md` · pendente: commit/push deste repo e criar remoto GitHub (sessão sem shell local; `gh` sem credencial).
 - 2026-10-05 · Claude · achados de segurança do destak-tasks (Mural + documentos) conferidos: já corrigidos em `2c92c26` (13/07) · `HANDOFF.md` · pendente: nada.
 - 2026-10-14 · Claude · `AGENTS.md`: destak-tasks publica por worktree + cherry-pick (push por refspec é recusado, históricos divergidos); cópia da raiz sincronizada · `699c01d` · pendente: nada.
+- 2026-11-12 · Claude · `MANUAL-CONSTRUCAO.md` v1.1 (F01–F21, ordem do conserto) e decisão 001 (Vercel Hobby, risco aceito pelo Rafael) · `cfc90d2`, `3b0c99b`, `930777a` · pendente: Node 26.x na Vercel × 24 no manual.

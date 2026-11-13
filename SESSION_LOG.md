@@ -4,6 +4,19 @@ Histórico resumido das sessões. Uma entrada por sessão, mais recente no topo.
 
 ---
 
+## 2026-11-12 — Manual de construção v1.1 e decisão 001 (Vercel Hobby)
+
+- `MANUAL-CONSTRUCAO.md` criado e levado à v1.1 (`cfc90d2`, `3b0c99b`): passos P0–P12 por nível N1/N2/N3, falhas F01–F21
+  com prova e ordem do conserto (seção 4). Revisado por um Claude independente (21 achados, conferidos um a um) e pela
+  auditoria do time do MRP. Recusado com motivo: `paths-ignore` de `.md` no CI (o gitleaks precisa ver documento).
+- Decisão 001 (`930777a`): apps comerciais seguem no Vercel Hobby com o risco aceito (Rafael, opção 2b); a F20 e a
+  seção 4 apontam para `docs/decisoes/001-vercel-hobby-risco-aceito.md`.
+- Manual aplicado: kit do MRP (`Desktop/univasf/PCP 2/08-Projeto-Ibacem-MRP/kit-sistema-mrp`) e OS de 9 itens para o
+  app do Selo (`Desktop/Hopitasl Universitario/trabalho/OS-selo-manual-construcao-2026-11-12.md`; o dev respondeu "recebido").
+- Não feito: Node 26.x na Vercel (mrp-ibacem, selo-hu) × 24 no manual, sem decisão. A pesquisa do Gemini lançada para o
+  manual seguia rodando no fechamento: auditar antes de usar.
+- Próxima ação: conferir as respostas dos devs (MRP e Selo) e marcar na tabela F o que fechou, com a prova.
+
 ## 2026-07-13 — Auditoria independente do Destak Tasks
 
 **Escopo e resultado:**
