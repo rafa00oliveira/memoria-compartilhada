@@ -1,0 +1,31 @@
+# Copie para .github/workflows/ci.yml (MANUAL-CONSTRUCAO.md, P4).
+# Versões das ações conferidas em 12/11/2026; confira a última publicada no dia.
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # De mentira, só para o build pré-renderizar. O build do CI não vai para o ar. A chave secreta nunca entra aqui.
+      NEXT_PUBLIC_SUPABASE_URL: https://exemplo.supabase.co
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: chave-de-mentira-so-para-o-build
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      # Procura segredo antes de instalar qualquer pacote.
+      - uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      # --ignore-scripts: nenhum pacote roda código na instalação.
+      - run: npm ci --ignore-scripts
+      - run: npm audit --omit=dev --audit-level=critical
+      - run: npm run check

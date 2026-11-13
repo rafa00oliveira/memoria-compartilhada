@@ -119,14 +119,19 @@ Prova: `git log -1 --format=%ae` mostra o e-mail certo; `npm run check` passa nu
    // scripts/alvo.mjs: todo script que grava chama conferirAlvo() com a URL (ou o ref) que ele VAI usar.
    const PRODUCAO = "abcdefghijklmnopqrst"; // ref de produção; não é segredo: está na URL pública do site
    export function conferirAlvo(urlOuRef) {
-     const host = urlOuRef.includes("://") ? new URL(urlOuRef).hostname : urlOuRef;
-     const ref = host === "127.0.0.1" || host === "localhost" ? "local" : host.split(".")[0];
-     if (ref === PRODUCAO && !process.argv.includes("--producao"))
+     // procura o ref em qualquer forma: https://<ref>.supabase.co, db.<ref>.supabase.co, postgres.<ref>@...pooler
+     const producao = urlOuRef.toLowerCase().includes(PRODUCAO);
+     if (producao && !process.argv.includes("--producao"))
        throw new Error("Este script ia gravar em PRODUÇÃO. Se é isso mesmo, rode de novo com --producao.");
-     console.error(`alvo: ${ref}`);
-     return ref;
+     const host = urlOuRef.includes("://") ? new URL(urlOuRef).hostname : urlOuRef; // só o host: a conexão traz senha
+     console.error(`alvo: ${producao ? "PRODUÇÃO" : host}`);
+     return producao ? "producao" : host;
    }
    ```
+
+   Versão anterior (até 13/11) lia o ref como `host.split(".")[0]` e deixava passar a conexão direta do Postgres
+   (`db.<ref>.supabase.co` vira "db"). O `scripts/alvo.mjs` do `mrp-ibacem` ainda tem esse furo; nenhum script de lá
+   usa essa forma hoje. Modelo com teste de 4 casos: `kit-construcao-apps/modelos/alvo.mjs`.
 
    Uso: na primeira linha do script, antes de criar o cliente, `conferirAlvo(process.env.NEXT_PUBLIC_SUPABASE_URL)`
    (ou a URL do banco que ele usa). O ref de produção fica escrito no arquivo de propósito: trava que lê variável de
@@ -428,6 +433,8 @@ bloco de 9 linhas do Next); ele entra no repositório com a D01 do grupo.
 - Fato com data (versão de ação, plano do GitHub, limite do Supabase) se confere de novo antes de usar.
 - Mudou uma regra daqui: atualizar o `AGENTS.md` desta pasta (ponteiro), rodar `sync-agents.ps1` e, se mudar regra
   global, o `~/AGENTS.md`.
+- Versão para colegas: `kit-construcao-apps/` (sem as seções 3 e 4, sem caminho nem projeto pessoal, com prompts e
+  modelos). Mudou um passo aqui, muda lá na mesma hora e refaz o zip e a cópia do Drive (comando no `CONTEXTO.md`).
 
 ## 7. Fontes (conferidas em 12/11/2026)
 
