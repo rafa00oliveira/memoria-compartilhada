@@ -71,6 +71,8 @@ Antes de trabalhar: `git pull`
 Ao salvar: `git add -A && git commit -m "mensagem clara em pt" && git push`
 
 ## Log
+
+- 2026-11-12 · Claude · guia `docs/POKA-YOKE-DIGITAL.md` (PESQ-01 de GQ + PESQ-02 de GS) e item 8 no P7 do manual · pendente: devs fazerem o levantamento tem/falta
 - 2026-10-05 · Claude · `AGENTS.md`: autonomia total (push/deploy/DDL/branch sem pedir) com guarda-corpos técnicos + seção "Teia" (onde buscar cada informação e como registrar); cópia da raiz atualizada · `AGENTS.md`, `../AGENTS.md`, `HANDOFF.md` · pendente: commit/push deste repo e criar remoto GitHub (sessão sem shell local; `gh` sem credencial).
 - 2026-10-05 · Claude · achados de segurança do destak-tasks (Mural + documentos) conferidos: já corrigidos em `2c92c26` (13/07) · `HANDOFF.md` · pendente: nada.
 - 2026-10-14 · Claude · `AGENTS.md`: destak-tasks publica por worktree + cherry-pick (push por refspec é recusado, históricos divergidos); cópia da raiz sincronizada · `699c01d` · pendente: nada.

@@ -282,6 +282,9 @@ e olhando também `.git/hooks`) não acha nada.
 6. Regra de negócio, conta, data, dinheiro e permissão ganham teste no mesmo commit (`node --test`). Não precisa
    escrever suíte para o código antigo: o teste nasce quando o código é tocado.
 7. Commit lista os arquivos pelo nome (nunca `-A` nem `.`); mensagem em português dizendo o porquê.
+8. Tela e gravação nova ou mudada passam pelo checklist do `docs/POKA-YOKE-DIGITAL.md` (seção 6): a mesma regra na
+   tela, no servidor e no banco, controle no que é grave e sem exceção, desfazer no lugar de "tem certeza?" e erro
+   traduzido (pedido do Rafael, 12/11/2026).
 
 Prova: o PR (ou o commit) tem a saída do `check`, o teste novo e a revisão registrada.
 
