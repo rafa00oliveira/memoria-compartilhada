@@ -49,6 +49,7 @@ parceiro). Fugir da stack num projeto novo pede uma decisão escrita em `docs/de
 **Plano da Vercel.** O Hobby é só para uso pessoal e não comercial (termos da Vercel: "You shall only use the
 Services under a Hobby plan for your personal or non-commercial use"). App de empresa (Destak, Reformo, Ápice) vai
 para o Pro na conta da empresa, ou o risco fica escrito como decisão em `docs/decisoes/`, assinada pelo Rafael (F20).
+Para os apps de hoje, o Rafael aceitou o risco em 12/11: `docs/decisoes/001-vercel-hobby-risco-aceito.md` desta pasta.
 Protótipo de faculdade e app pessoal ficam no Hobby.
 
 Antes de usar uma API do Next.js ou do Supabase, confira a documentação da versão instalada
@@ -392,7 +393,7 @@ Cada linha tem a prova de quando foi levantada. "Hipótese" é o que não deu pa
 | F17 | Chave secreta do Supabase no histórico do git | `destak-tasks`, commit `dc61340` (11/05/2026), presente em `origin/master`; nenhum registro de que a chave foi revogada | Rafael confere em API Keys se ela ainda existe e, se existir, apaga e cria outra | P6 |
 | F18 | Repositório sem remoto | `clube-poker` não tem `origin`: o código não tem cópia fora do PC e o CI nunca rodou | criar o repositório privado e fazer o primeiro push | P2 |
 | F19 | Dependência com falha crítica conhecida | `npm audit --omit=dev` acusa o `next` como crítico em `clube-poker` (16.3.5), `crm-luiza` (16.4.0), `destak-tasks` (16.2.4), `quero-bahia-crm` (16.2.4) e `reformo-erp` (16.2.9); alertas do Dependabot desligados nos sete repositórios com remoto (a API devolve 404) | ligar os alertas; atualizar o `next` começando pelos N3 no ar | P12 |
-| F20 | Vercel Hobby em app de empresa | os apps da Destak e da Reformo estão no time Hobby; os termos limitam o Hobby a uso pessoal e não comercial | Rafael decide: Pro na conta da empresa ou risco escrito em `docs/decisoes/` | seção 1 |
+| F20 | Vercel Hobby em app de empresa | os apps da Destak e da Reformo estão no time Hobby; os termos limitam o Hobby a uso pessoal e não comercial | decidido em 12/11: ficam no Hobby com o risco aceito (`docs/decisoes/001-vercel-hobby-risco-aceito.md`); rever nos gatilhos de lá | seção 1 |
 | F21 | Configuração do Auth nunca conferida | no MRP, cadastro público ligado e `site_url` em `localhost:3000` até a auditoria de 12/11 (corrigidos às 23h12 e 23h24). **Hipótese:** os outros apps não foram conferidos | `GET <url>/auth/v1/settings` em cada app; `site_url` e senha mínima no painel | P8 |
 
 ## 4. Ordem do conserto
@@ -404,7 +405,7 @@ Cada linha tem a prova de quando foi levantada. "Hipótese" é o que não deu pa
 | 3 | Repositório do `clube-poker` (F18); `ci.yml` com gitleaks nos oito repositórios e a varredura do histórico inteiro uma vez em cada (F01, F03) | IA, um commit por repositório | 1 a 2 h |
 | 4 | Alertas do Dependabot ligados e `next` atualizado nos cinco apps (F19) | IA, com `check` e prova no ar por app | 1 h por app |
 | 5 | Pedir o Student Developer Pack e ligar o Pro; depois, ruleset com o check `ci` nos N3; nos N3 de empresa, o deploy depois do CI (P4.2) (F02) | Rafael pede; IA configura | 30 min + espera |
-| 6 | Plano da Vercel dos apps de empresa (F20) e configuração do Auth de cada app (F21) | Rafael decide o plano; IA confere o Auth | 30 min |
+| 6 | Configuração do Auth de cada app (F21). O plano da Vercel (F20) já foi decidido: risco aceito | IA | 30 min |
 | 7 | Conferir plano e backup de cada projeto Supabase; dump agendado nos N3; um ensaio de restauração (F07) | IA, com a senha do banco que o Rafael fornece | 2 h por projeto |
 | 8 | Trava de alvo, `erros_app`, testes e telas de erro e carregamento, cada um quando o repositório for tocado (F05, F12, F13, F16) | IA | junto com a tarefa |
 | 9 | MRP: projeto Supabase sob o responsável técnico (F09) e `destak-tasks` alinhado (F14) | Rafael decide; IA executa | 1 h cada |
