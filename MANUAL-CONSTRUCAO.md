@@ -393,7 +393,7 @@ Cada linha tem a prova de quando foi levantada. "Hipótese" é o que não deu pa
 | F18 | Repositório sem remoto | `clube-poker` não tem `origin`: o código não tem cópia fora do PC e o CI nunca rodou | criar o repositório privado e fazer o primeiro push | P2 |
 | F19 | Dependência com falha crítica conhecida | `npm audit --omit=dev` acusa o `next` como crítico em `clube-poker` (16.3.5), `crm-luiza` (16.4.0), `destak-tasks` (16.2.4), `quero-bahia-crm` (16.2.4) e `reformo-erp` (16.2.9); alertas do Dependabot desligados nos sete repositórios com remoto (a API devolve 404) | ligar os alertas; atualizar o `next` começando pelos N3 no ar | P12 |
 | F20 | Vercel Hobby em app de empresa | os apps da Destak e da Reformo estão no time Hobby; os termos limitam o Hobby a uso pessoal e não comercial | Rafael decide: Pro na conta da empresa ou risco escrito em `docs/decisoes/` | seção 1 |
-| F21 | Configuração do Auth nunca conferida | no MRP, cadastro público ligado e `site_url` em `localhost:3000` até 12/11 (desligado às 23h12). **Hipótese:** os outros apps não foram conferidos | `GET <url>/auth/v1/settings` em cada app; `site_url` e senha mínima no painel | P8 |
+| F21 | Configuração do Auth nunca conferida | no MRP, cadastro público ligado e `site_url` em `localhost:3000` até a auditoria de 12/11 (corrigidos às 23h12 e 23h24). **Hipótese:** os outros apps não foram conferidos | `GET <url>/auth/v1/settings` em cada app; `site_url` e senha mínima no painel | P8 |
 
 ## 4. Ordem do conserto
 
