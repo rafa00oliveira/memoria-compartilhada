@@ -223,9 +223,15 @@ Prova: o gitleaks do CI passa; `grep -rl "sbp_" --include=".env*"` nas pastas de
    principal com o `check` local verde.
 4. Toda gravação (Server Action ou rota) confere login e papel no servidor e valida a entrada com zod antes de tocar
    no banco. A checagem da tela não conta: qualquer pessoa logada chama a Server Action direto, sem passar pela tela.
-5. Regra de negócio, conta, data, dinheiro e permissão ganham teste no mesmo commit (`node --test`). Não precisa
+5. Tela (N2 e N3) trata quatro estados: carregando, vazio dizendo o que fazer, erro em português com "Tentar de novo"
+   e com dados. No Next: `loading.tsx` e `error.tsx` em cada módulo e `not-found.tsx` na raiz; sem eles aparece a
+   página padrão, em inglês e sem menu. Também: `label` em todo campo; contraste de 4,5:1 no texto e de 3:1 em
+   contorno de campo, ícone e gráfico (WCAG 2.2 AA); uso só com teclado e foco visível; cor sempre com texto
+   visível; funciona a partir de 360 px; número no formato pt-BR com unidade, sem arredondar fração para "0"; lista
+   que passa de 200 linhas é paginada.
+6. Regra de negócio, conta, data, dinheiro e permissão ganham teste no mesmo commit (`node --test`). Não precisa
    escrever suíte para o código antigo: o teste nasce quando o código é tocado.
-6. Commit lista os arquivos pelo nome (nunca `-A` nem `.`); mensagem em português dizendo o porquê.
+7. Commit lista os arquivos pelo nome (nunca `-A` nem `.`); mensagem em português dizendo o porquê.
 
 Prova: o PR (ou o commit) tem a saída do `check`, o teste novo e a revisão registrada.
 
@@ -319,9 +325,10 @@ Cada linha tem a prova de quando foi levantada. "Hipótese" é o que não deu pa
 | F10 | Revisão sem registro | os agentes publicam direto na principal com a conta do Rafael; a revisão da outra IA fica, quando fica, em texto livre de commit | mudança de risco por PR com a revisão colada (P7); `ia nota` depois de auditar | P7 |
 | F11 | Cópia de regra editada à mão | `~/Claude/AGENTS.md` tinha uma linha (receita de push) que a fonte não tinha; o `sync-agents.ps1` teria apagado | corrigido em 12/11 (linha levada para a fonte); `sync-agents.ps1 -Check` na varredura do `fantastico` | P12 |
 | F12 | Erro sem registro em três apps | `erros_app` existe em `destak-crm`, `destak-tasks`, `reformo-erp`, `quero-bahia-crm` e `clube-poker`; falta em `selo-hu`, `crm-luiza` e `mrp-ibacem`; log da Vercel Hobby dura uma hora | migration da `erros_app` e o `catch` gravando nela, ao tocar o repositório | P10 |
-| F13 | Os quatro apps maiores não têm teste automático | `destak-crm`, `destak-tasks`, `reformo-erp` e `quero-bahia-crm`: zero arquivo `*.test.*`, e o `check` só compila (tipos, lint, build); as provas (`provaIsolamentoRLS.mjs` e outras) rodam à mão | teste nasce com o código tocado (P7.5); a prova de RLS entra no `check` quando houver banco de teste | P7, P5 |
+| F13 | Os quatro apps maiores não têm teste automático | `destak-crm`, `destak-tasks`, `reformo-erp` e `quero-bahia-crm`: zero arquivo `*.test.*`, e o `check` só compila (tipos, lint, build); as provas (`provaIsolamentoRLS.mjs` e outras) rodam à mão | teste nasce com o código tocado (P7.6); a prova de RLS entra no `check` quando houver banco de teste | P7, P5 |
 | F14 | Branch local que diverge da principal | `destak-tasks` trabalha em `melhoria-dashboard-ui`, divergida da `master`; publicar exige worktree e `cherry-pick` | alinhar a branch local com a `origin/master` (plano com o Rafael antes) | P2 |
 | F15 | "Pronto" pelo relato do agente | já aconteceu: memórias `workflow-vazio-nao-e-aprovado` e `simulacao-precisa-de-verificador` | coberto pelo `fluxo-dev` (Portão 4) e pela P8; manter | P8 |
+| F16 | Tela sem estado de erro e de carregamento: falha vira a página padrão do Next, em inglês e sem menu | sem `error.tsx`: `clube-poker`, `crm-luiza` e `mrp-ibacem`; sem `loading.tsx`: esses três mais `destak-tasks` e `selo-hu`. No MRP, a auditoria de 12/11 achou também fração mostrada como "0", contraste abaixo do AA e tela vazia sem instrução (K12 a K16 do kit) | regra de tela da P7.5, aplicada quando o repositório for tocado; no MRP antes da demonstração | P7 |
 
 ## 4. Ordem do conserto
 
@@ -332,7 +339,7 @@ Cada linha tem a prova de quando foi levantada. "Hipótese" é o que não deu pa
 | 3 | `ci.yml` com gitleaks nos oito repositórios (F01, F03) | IA, um commit por repositório | 1 a 2 h |
 | 4 | Pedir o Student Developer Pack e ligar o Pro; depois, ruleset com o check `ci` nos N3 (F02) | Rafael pede; IA configura | 30 min + espera |
 | 5 | Conferir plano e backup de cada projeto Supabase; dump agendado nos N3; um ensaio de restauração (F07) | IA, com a senha do banco que o Rafael fornece | 2 h por projeto |
-| 6 | Trava de alvo, `erros_app` e testes, cada um quando o repositório for tocado (F05, F12, F13) | IA | junto com a tarefa |
+| 6 | Trava de alvo, `erros_app`, testes e telas de erro e carregamento, cada um quando o repositório for tocado (F05, F12, F13, F16) | IA | junto com a tarefa |
 | 7 | MRP: projeto Supabase sob o responsável técnico (F09) e `destak-tasks` alinhado (F14) | Rafael decide; IA executa | 1 h cada |
 
 ## 5. Modelo pronto
