@@ -131,7 +131,7 @@ Prova: `git log -1 --format=%ae` mostra o e-mail certo; `npm run check` passa nu
 
    Versão anterior (até 13/11) lia o ref como `host.split(".")[0]` e deixava passar a conexão direta do Postgres
    (`db.<ref>.supabase.co` vira "db"). O `scripts/alvo.mjs` do `mrp-ibacem` ainda tem esse furo; nenhum script de lá
-   usa essa forma hoje. Modelo com teste de 4 casos: `kit-construcao-apps/modelos/alvo.mjs`.
+   usa essa forma hoje. Modelo com teste de 4 casos: `~/Claude/kit-construcao-apps/modelos/alvo.mjs`.
 
    Uso: na primeira linha do script, antes de criar o cliente, `conferirAlvo(process.env.NEXT_PUBLIC_SUPABASE_URL)`
    (ou a URL do banco que ele usa). O ref de produção fica escrito no arquivo de propósito: trava que lê variável de
@@ -433,8 +433,11 @@ bloco de 9 linhas do Next); ele entra no repositório com a D01 do grupo.
 - Fato com data (versão de ação, plano do GitHub, limite do Supabase) se confere de novo antes de usar.
 - Mudou uma regra daqui: atualizar o `AGENTS.md` desta pasta (ponteiro), rodar `sync-agents.ps1` e, se mudar regra
   global, o `~/AGENTS.md`.
-- Versão para colegas: `kit-construcao-apps/` (sem as seções 3 e 4, sem caminho nem projeto pessoal, com prompts e
-  modelos). Mudou um passo aqui, muda lá na mesma hora e refaz o zip e a cópia do Drive (comando no `CONTEXTO.md`).
+- Versão para colegas, pública: `~/Claude/kit-construcao-apps` = https://github.com/rafa00oliveira/kit-construcao-apps
+  (sem as seções 3 e 4, sem caminho nem projeto pessoal, com prompts e modelos). Mudou um passo aqui, muda lá na mesma
+  hora. A v1.2-geral (13/11) tem 7 itens que este manual ainda não tem: armadilhas de RLS (P5.5), `getClaims` e
+  `server-only` (P7.4), `.npmrc` com quarentena (P12), `rls_ligada.test.sql` (P5.9), Suposições (P1), bug em três
+  partes (ciclo) e `permissions.deny` (P3.5). A cópia do Drive (`G:/Meu Drive/kit-construcao-apps`) parou na v1.1.
 
 ## 7. Fontes (conferidas em 12/11/2026)
 

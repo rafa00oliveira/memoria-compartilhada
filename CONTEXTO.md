@@ -4,7 +4,7 @@
 - **Para:** os agentes (Claude, Codex), não para pessoa nenhuma.
 - **Entrega típica:** nenhuma — é estado, não entregável.
 - **Fonte de dados:** as próprias sessões de trabalho.
-- **Estado:** ativo como **regras + teia de ponteiros** (`AGENTS.md`) e casa do **manual de construção** (`MANUAL-CONSTRUCAO.md`, v1.1 de 12/11/2026) e das decisões transversais (`docs/decisoes/`). Versão para colegas do manual: `kit-construcao-apps/` (LEIA-PRIMEIRO, prompts, manual geral, ciclo da tarefa, poka-yoke e modelos), com cópia e zip em `G:/Meu Drive/kit-construcao-apps/`; refazer o zip (Python `zipfile`) e copiar com `cp -r kit-construcao-apps/. "/g/Meu Drive/kit-construcao-apps/"` a cada mudança, conferindo por `sha256sum`. Estado de projeto NÃO mora aqui: mora no `CONTEXTO.md` de cada repo. Seções abaixo de "Perfil de trabalho" são de 2026-07-13 e não são mantidas.
+- **Estado:** ativo como **regras + teia de ponteiros** (`AGENTS.md`) e casa do **manual de construção** (`MANUAL-CONSTRUCAO.md`, v1.1 de 12/11/2026) e das decisões transversais (`docs/decisoes/`). Versão para colegas do manual: repositório público `~/Claude/kit-construcao-apps` (https://github.com/rafa00oliveira/kit-construcao-apps, v1.2-geral); a cópia do Drive (`G:/Meu Drive/kit-construcao-apps`) parou na v1.1 por decisão do Rafael. Estado de projeto NÃO mora aqui: mora no `CONTEXTO.md` de cada repo. Seções abaixo de "Perfil de trabalho" são de 2026-07-13 e não são mantidas.
 - **Próxima ação:** marcar na tabela F do manual o que os devs do MRP e do Selo fecharem, com a prova. O remoto privado existe (`github.com/rafa00oliveira/memoria-compartilhada`) e está em dia. Confere com: `git ls-remote origin main` = `git rev-parse HEAD`.
 - **Não confundir com:** `~/.claude/projects/.../memory/` — aquilo é a memória automática do Claude Code; isto aqui é um arquivo escrito à mão.
 - **Atualizado:** 2026-11-12 | provado: remoto = local (`git cherry @{u}` vazio), `ls docs/decisoes` = 001 | NÃO provado: seções de 07-13
@@ -72,6 +72,7 @@ Ao salvar: `git add -A && git commit -m "mensagem clara em pt" && git push`
 
 ## Log
 
+- 2026-11-13 · Claude · kit para colegas virou repositório público (`2666f2b`, v1.2 com 7 ideias da pesquisa no GitHub; `permissions.deny` testado num Claude real) e saiu daqui (estava em `db08e2d`) · pendente: portar os 7 itens para este manual; CI do kit espera o escopo `workflow` no gh; licença.
 - 2026-11-13 · Claude · `kit-construcao-apps/` (versão para colegas: 15 arquivos, `alvo.test.mjs` 4/4, gitleaks limpo) e trava da P3 corrigida no manual (furo `db.<ref>`) · Drive `G:/Meu Drive/kit-construcao-apps` = local por hash (15/15) + zip · pendente: o link de compartilhamento é do Rafael; o `alvo.mjs` do `mrp-ibacem` segue com o furo.
 - 2026-11-12 · Claude · guia `docs/POKA-YOKE-DIGITAL.md` (PESQ-01 de GQ + PESQ-02 de GS) e item 8 no P7 do manual · pendente: devs fazerem o levantamento tem/falta
 - 2026-10-05 · Claude · `AGENTS.md`: autonomia total (push/deploy/DDL/branch sem pedir) com guarda-corpos técnicos + seção "Teia" (onde buscar cada informação e como registrar); cópia da raiz atualizada · `AGENTS.md`, `../AGENTS.md`, `HANDOFF.md` · pendente: commit/push deste repo e criar remoto GitHub (sessão sem shell local; `gh` sem credencial).
