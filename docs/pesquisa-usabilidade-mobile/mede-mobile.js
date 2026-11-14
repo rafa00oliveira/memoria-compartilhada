@@ -1,9 +1,15 @@
 (() => {
   // clientWidth, não innerWidth: no celular, página larga demais aumenta o innerWidth e esconde a rolagem.
   const vw = document.documentElement.clientWidth;
-  const visivel = (e) => e.getClientRects().length > 0 && getComputedStyle(e).visibility !== 'hidden';
+  // Elemento de 2 px ou menos (escondido para leitor de tela, como o "Pular para o conteúdo") não conta como alvo.
+  const visivel = (e) => {
+    const b = e.getBoundingClientRect();
+    return e.getClientRects().length > 0 && getComputedStyle(e).visibility !== 'hidden' && b.width > 2 && b.height > 2;
+  };
+  // Rádio e checkbox dentro de um rótulo: o alvo é o rótulo inteiro.
   const alvos = [...document.querySelectorAll(
-    'a[href], button, input:not([type=hidden]), select, textarea, summary, [role=button], [role=tab], [role=link], [onclick]'
+    'a[href], button, input:not([type=hidden]):not(label input[type=radio]):not(label input[type=checkbox]), select, textarea, summary, ' +
+      '[role=button], [role=tab], [role=link], [onclick], label:has(input[type=radio], input[type=checkbox])'
   )].filter(visivel);
   const pequenos = alvos.filter((e) => {
     const b = e.getBoundingClientRect();

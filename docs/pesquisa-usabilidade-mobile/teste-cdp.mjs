@@ -8,7 +8,9 @@ import assert from 'node:assert/strict';
 const dir = mkdtempSync(join(tmpdir(), 'mede-'));
 const ruim = `<!doctype html><meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=1">
 <button style="width:30px;height:30px">x</button><a href="#" style="display:inline-block;width:48px;height:48px">ok</a>
-<input style="font-size:14px"><input type=number><input type=hidden><div style="width:600px">largo</div>`;
+<input style="font-size:14px"><input type=number><input type=hidden><div style="width:600px">largo</div>
+<a href="#main" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">pular</a>
+<label style="display:inline-block;width:48px;height:48px"><input type=radio style="position:absolute;width:1px;height:1px;opacity:0">sim</label>`;
 const boa = `<!doctype html><meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=5">
 <button style="width:48px;height:48px">ok</button><input style="font-size:16px;height:48px;width:200px">`;
 writeFileSync(join(dir, 'ruim.html'), ruim);
@@ -43,7 +45,7 @@ console.log('ruim', r1, '\nboa', r2);
 assert.equal(r1.largura, 390);
 assert.equal(r1.rolagemHorizontal, true);
 assert.equal(r1.zoomTravado, true);
-assert.equal(r1.alvosAbaixoDe44, '3 de 4'); // botão de 30 px, input de fonte 14 (altura < 44) e input number; o link de 48 passa; o hidden nem entra
+assert.equal(r1.alvosAbaixoDe44, '3 de 5'); // botão de 30 px, input de fonte 14 (altura < 44) e input number; link de 48 e rótulo de 48 passam; o sr-only, o rádio do rótulo e o hidden não entram
 assert.equal(r1.camposComFonteAbaixoDe16, 2);
 assert.equal(r1.inputTypeNumber, 1);
 assert.equal(r2.rolagemHorizontal, false);

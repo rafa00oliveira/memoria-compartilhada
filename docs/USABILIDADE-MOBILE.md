@@ -1,6 +1,6 @@
 # Usabilidade no celular: catálogo para app de campo
 
-Versão 1, 14/11/2026. Para app web usado no celular por quem trabalha fora do escritório: fiscal em vistoria, vendedor
+Versão 1.1, 14/11/2026 (com as 11 críticas do levantamento do Selo). Para app web usado no celular por quem trabalha fora do escritório: fiscal em vistoria, vendedor
 na rua. A meta é a pessoa fazer a tarefa sem treino, sem erro e rápido, com uma mão, no sol e com internet ruim.
 
 Base: 129 regras em três pesquisas de 13/11/2026, cada uma com número, fonte (URL e seção) e como testar, todas em
@@ -30,12 +30,12 @@ Onde as fontes discordam, a escolha está na coluna "Por quê".
 |---|---|---|---|
 | Área de toque | 48×48 CSS px em todo controle novo; abaixo de 44 é falha; 24×24 é só o mínimo legal (WCAG 2.5.8) | Android pede 48 dp, web.dev 48 px, Apple 44 pt; os 24 da WCAG são piso de acessibilidade, não de uso andando | P01, P03, U04 |
 | Ação principal e ação feita andando | botão de pelo menos 1 cm físico, medido com régua no aparelho | NN/g: dedo de 1,6 a 2 cm; Hoober: alvo de 8 mm em movimento | P04, U05 |
-| Espaço entre alvos | 8 px livres entre áreas de toque; ação perigosa a 8 mm ou mais (centro a centro) das frequentes | web.dev e Google pedem 8; Hoober pede 8 a 10 mm para separar erro caro | P02, U06 |
-| Contraste | 4,5:1 no texto (3:1 no texto grande); 3:1 em borda de campo, ícone e foco; 7:1 em prazo, status e valor | WCAG AA é o portão; o 7:1 vem da Apple ("especially in small text") e do uso no sol: escolha deste catálogo | P15, P16, P17, U36 |
+| Espaço entre alvos | 8 px livres entre controles pequenos vizinhos (ícones); célula da barra inferior e linha de lista com 48 px de altura podem encostar no vizinho; ação perigosa a 8 mm ou mais (centro a centro) das frequentes | web.dev e Google pedem 8 entre alvos; a WCAG só cobra espaço de alvo pequeno; Hoober pede 8 a 10 mm para separar erro caro | P02, U06 |
+| Contraste | 4,5:1 no texto (3:1 no texto grande); 3:1 em borda de campo, ícone e foco; 7:1 em prazo, status e valor. Cor de marca clara (amarelo, verde) fica de fundo e ícone; texto de status ganha um token próprio, mais escuro | WCAG AA é o portão; o 7:1 vem da Apple ("especially in small text") e do uso no sol: escolha deste catálogo | P15, P16, P17, U36 |
 | Fonte | campo de formulário com 16 px ou mais; no teste ao sol, conferir 18 a 20 px | web.dev: 20 px "is about right on mobile". O zoom do iPhone abaixo de 16 px só tem relato de desenvolvedor, sem documento da Apple | T11, P12 |
 | Largura | toda tela funciona em 320 px sem rolagem horizontal; teste principal em 390×844 e 360×800 | WCAG 1.4.10 usa 320 px. O manual de construção dizia 360: o catálogo desce para 320 | P09 |
 | Zoom e texto grande | zoom liberado (pelo menos 2×); texto a 200% sem cortar | WCAG 1.4.4. O exemplo de viewport da doc do Next trava o zoom: não copiar | P08, P13, T02 |
-| Barra inferior | 3 a 5 destinos, cada um com ícone e rótulo; 4 é o confortável | Material: 3 a 5; NN/g: 4 a 5; Hoober: mais de 4 aperta o alvo da borda | P21, U09 |
+| Barra inferior | 3 a 5 destinos, cada um com ícone e rótulo; 4 é o confortável; o destino que sobra vira link numa tela (o Início), não aba "Mais" | Material: 3 a 5; NN/g: 4 a 5; Hoober: mais de 4 aperta o alvo da borda; a Apple manda evitar aba de sobra | P21, U09 |
 | Resposta ao toque | mudança visual em até 0,1 s; INP até 200 ms no p75 | NN/g: 0,1 s parece instantâneo; o INP é a meta atual do Google (o RAIL saiu) | U30, T25 |
 | Espera | menos de 1 s: nada; tela inteira até 10 s: esqueleto; ação de 2 a 10 s: spinner num bloco; total conhecido (fotos) ou 10 s ou mais: barra real com Cancelar | NN/g 2014 e 2023; Apple pede progresso determinado quando se sabe o total | U31, P35, P36 |
 | Carga da página | LCP até 2,5 s, CLS até 0,1, no p75 do celular; JS inicial até 170 KB comprimido; página até 1.600 KiB | web.dev e Lighthouse. O teto de 170 KB é ponto de partida; o INP e o LCP medidos em campo valem mais | T25, T29, T30 |
@@ -51,30 +51,36 @@ MVP primeiro. Cada item cita os IDs da pesquisa.
 ### 3.1 Toque e alcance
 
 - [ ] Todo controle com área de toque de 48 px; ícone pequeno ganha padding até 48 (P01, U04).
-- [ ] 8 px livres entre áreas de toque; Excluir e Cancelar longe de Salvar e Próximo (P02, U06).
+- [ ] 8 px livres entre controles pequenos vizinhos (barra e lista com 48 px podem encostar); Excluir e Cancelar longe
+      de Salvar e Próximo (P02, U06).
 - [ ] Conteúdo e toque frequente no centro da tela; barra e ação secundária no topo e no rodapé (U02).
 - [ ] Ação dispara ao soltar o dedo (`click`), nunca em `touchstart` ou `pointerdown` (P05).
 - [ ] Botão customizado com estado pressionado visível (`:active`) (P06).
 - [ ] Todo gesto (deslizar, pinça, arrastar) tem um caminho de um toque: botão, menu ⋮, setas (P37, P38).
 - [ ] Ícone de navegação e de ação com rótulo escrito (U08).
-- [ ] Hover só dentro de `@media (hover: hover) and (pointer: fine)`; nenhuma ação escondida atrás dele (T06).
+- [ ] Hover só dentro de `@media (hover: hover)` (o Tailwind 4 já gera assim); nenhuma ação escondida atrás dele (T06).
 
 ### 3.2 Leitura no sol
 
 - [ ] Contraste de 4,5:1 no texto, 3:1 em borda, ícone e foco, 7:1 em prazo, status e valor (P15 a P17, U36).
 - [ ] Status nunca só por cor: ícone e texto ("Vencida", "Conforme"); o print em tons de cinza continua legível (P18, U37).
 - [ ] Zoom liberado: nada de `user-scalable=no`, `userScalable: false` ou `maximum-scale` abaixo de 2 (P08, T02).
-- [ ] Texto a 200% sem corte; dado crítico não vira "…"; o card vira uma coluna (P13, P14).
+- [ ] Texto a 200% sem corte; dado crítico não vira "…"; o card vira uma coluna (P13, P14). Como testar: no aparelho,
+      Chrome Android › Configurações › Acessibilidade › tamanho do texto em 200%; na bancada (o DevTools não tem zoom
+      só de texto), `document.documentElement.style.fontSize = '200%'` no console, que cresce o que usa `rem` e
+      denuncia o texto em `px` que não cresce.
 - [ ] 320 px sem rolagem horizontal; retrato e paisagem funcionam (P09, P10).
 - [ ] `color-scheme` igual ao tema entregue (`only light` se só houver o claro) (P19).
 
 ### 3.3 Navegação e botões
 
-- [ ] Barra inferior com 3 a 5 destinos, sempre visível, só para navegar, sem item desativado (P21, P22, U09).
+- [ ] Barra inferior com 3 a 5 destinos, sempre visível, só para navegar, sem item desativado; o sexto vira link no
+      Início (P21, P22, U09).
 - [ ] Nada de menu hambúrguer como navegação principal (U09).
 - [ ] Barra superior com o título e até 2 ações; o resto no ⋮ (P23).
 - [ ] No máximo 1 ou 2 botões em destaque por tela; ação destrutiva nunca no estilo principal (P25).
-- [ ] Botão de envio fixo no rodapé, dentro da área segura (`env(safe-area-inset-bottom)`) (P07, T04).
+- [ ] Formulário longo: botão de envio fixo no rodapé, dentro da área segura (`env(safe-area-inset-bottom)`). Lista de
+      cartões em que cada um tem o próprio Salvar dispensa a faixa fixa: com a barra inferior, seriam duas (P07, T04).
 - [ ] Padrões que a pessoa já usa em outros apps; nenhum controle inventado (U10).
 
 ### 3.4 Formulário
@@ -90,7 +96,8 @@ MVP primeiro. Cada item cita os IDs da pesquisa.
 - [ ] Autocorreção desligada em nome, e-mail, código e endereço (U17).
 - [ ] Aceita qualquer formato colado ("(87) 99999-0000", "56.300-000") e formata sozinho (U19).
 - [ ] Preenche pela pessoa: padrão bom, histórico, GPS e o que ela já digitou no fluxo; nada se pede duas vezes (U20, P41).
-- [ ] Busca de cliente e produto pelas primeiras letras, tolerando erro de grafia (U21).
+- [ ] Lista longa (cliente, produto, pergunta do checklist) tem busca pelas primeiras letras, tolerando erro de
+      grafia (U21).
 - [ ] Valida ao sair do campo; o erro some assim que o campo fica certo (U25).
 - [ ] Erro específico ao lado do campo, com texto e ícone, dizendo como corrigir (U26).
 - [ ] Campo em foco nunca coberto pelo teclado nem por barra fixa (`scroll-padding`); Salvar alcançável com o teclado
@@ -129,7 +136,8 @@ MVP primeiro. Cada item cita os IDs da pesquisa.
 - [ ] `navigator.storage.persist()` pedido; instalar na tela de início orientado (T23).
 - [ ] Atualização do app pergunta antes ("Nova versão. Atualizar?"), nunca recarrega sozinha: no Vite,
       `registerType: 'prompt'`; no Serwist, sem `skipWaiting` automático (T17).
-- [ ] Leitura do dia (carteira, roteiro, checklist, prazos) guardada no aparelho; o que é grande, só a pedido (T18).
+- [ ] Leitura do dia guardada no aparelho (no CRM, carteira e roteiro; no Selo, agenda do mês, checklist do contrato e
+      avisos); o que é grande, só a pedido (T18).
 
 ### 3.8 Câmera, localização e permissão
 
@@ -162,7 +170,8 @@ push no iPhone só com o app instalado (T41); SUS no fim de cada rodada (U43).
 
 ### 3.12 Por stack
 
-- **Next.js 16:** `export const viewport` no `app/layout.tsx` (T01); manifest em `app/manifest.ts` e service worker com
+- **Next.js 16:** `export const viewport` no `app/layout.tsx` (T01); manifest em `app/manifest.ts` ou no arquivo
+  estático `app/manifest.webmanifest` (as duas são convenção do Next) e service worker com
   Serwist, `@serwist/turbopack` ou `@serwist/next` conforme o bundler (T15); `preload` no lugar de `priority` no
   next/image (T28).
 - **Vite:** `<meta name="viewport">` no `index.html` (T01); `vite-plugin-pwa` 2.x, que pede Node 20.19 ou mais, com
@@ -177,16 +186,23 @@ push no iPhone só com o app instalado (T41); SUS no fim de cada rodada (U43).
 2. **Bancada.** DevTools, modo dispositivo em 390×844 e depois em 360×800, rede "Slow 4G" e CPU 4× mais lenta. Faça
    cada tarefa e anote o tempo, o número de toques e onde travou.
 3. **Medição.** Em cada tela das tarefas, cole no console o script abaixo. Ele lista os alvos abaixo de 44 px, os
-   campos com fonte abaixo de 16 px, a rolagem horizontal, o zoom travado e os `type="number"`. Link dentro de texto
-   corrido é exceção ao tamanho; checkbox dentro de um rótulo grande passa, confira cada caso da lista.
+   campos com fonte abaixo de 16 px, a rolagem horizontal, o zoom travado e os `type="number"`. Rádio e checkbox
+   dentro de um rótulo contam pelo rótulo; elemento escondido para leitor de tela (2 px ou menos) não conta. Link
+   dentro de texto corrido é exceção ao tamanho: confira cada caso da lista.
 
    ```js
    (() => {
      // clientWidth, não innerWidth: no celular, página larga demais aumenta o innerWidth e esconde a rolagem.
      const vw = document.documentElement.clientWidth;
-     const visivel = (e) => e.getClientRects().length > 0 && getComputedStyle(e).visibility !== 'hidden';
+     // Elemento de 2 px ou menos (escondido para leitor de tela, como o "Pular para o conteúdo") não conta como alvo.
+     const visivel = (e) => {
+       const b = e.getBoundingClientRect();
+       return e.getClientRects().length > 0 && getComputedStyle(e).visibility !== 'hidden' && b.width > 2 && b.height > 2;
+     };
+     // Rádio e checkbox dentro de um rótulo: o alvo é o rótulo inteiro.
      const alvos = [...document.querySelectorAll(
-       'a[href], button, input:not([type=hidden]), select, textarea, summary, [role=button], [role=tab], [role=link], [onclick]'
+       'a[href], button, input:not([type=hidden]):not(label input[type=radio]):not(label input[type=checkbox]), select, textarea, summary, ' +
+         '[role=button], [role=tab], [role=link], [onclick], label:has(input[type=radio], input[type=checkbox])'
      )].filter(visivel);
      const pequenos = alvos.filter((e) => {
        const b = e.getBoundingClientRect();
@@ -215,7 +231,9 @@ push no iPhone só com o app instalado (T41); SUS no fim de cada rodada (U43).
    ```
 
    O mesmo script está em `docs/pesquisa-usabilidade-mobile/mede-mobile.js`, com o teste que o confere numa página
-   boa e numa ruim (`teste-cdp.mjs`, Edge sem cabeça a 390×844; passou em 14/11/2026).
+   boa e numa ruim (`teste-cdp.mjs`, Edge sem cabeça a 390×844; passou em 14/11/2026). Na mesma pasta, a
+   `bancada.mjs` do levantamento do Selo roda as tarefas sozinha (Slow 4G, CPU 4×, toque emulado, contraste pela cor
+   pintada, duração de cada toque) e aborta toda gravação no banco; o `tarefas.mjs` com as tarefas é de cada app.
 4. **Contraste.** No DevTools, inspecione cada cor de texto do tema (legenda cinza, texto sobre botão, badge de
    status) e anote a razão.
 5. **Aparelho real.** Uma volta das tarefas no seu celular, com uma mão, ao ar livre, e outra em modo avião (o que
