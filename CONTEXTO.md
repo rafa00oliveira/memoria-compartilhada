@@ -7,7 +7,7 @@
 - **Estado:** ativo como **regras + teia de ponteiros** (`AGENTS.md`) e casa do **manual de construção** (`MANUAL-CONSTRUCAO.md`, v1.1 de 12/11/2026) e das decisões transversais (`docs/decisoes/`). Versão para colegas do manual: repositório público `~/Claude/kit-construcao-apps` (https://github.com/rafa00oliveira/kit-construcao-apps, v1.5-geral de 15/11, `93d4660`, com o contato público do Rafael na seção 5). Catálogo de usabilidade no celular: `docs/USABILIDADE-MOBILE.md` (pesquisa em `docs/pesquisa-usabilidade-mobile/`); a cópia do Drive (`G:/Meu Drive/kit-construcao-apps`) parou na v1.1 por decisão do Rafael. Estado de projeto NÃO mora aqui: mora no `CONTEXTO.md` de cada repo. Seções abaixo de "Perfil de trabalho" são de 2026-07-13 e não são mantidas.
 - **Próxima ação:** marcar na tabela F do manual o que os devs do MRP e do Selo fecharem, com a prova. O remoto privado existe (`github.com/rafa00oliveira/memoria-compartilhada`) e está em dia. Confere com: `git ls-remote origin main` = `git rev-parse HEAD`.
 - **Não confundir com:** `~/.claude/projects/.../memory/` — aquilo é a memória automática do Claude Code; isto aqui é um arquivo escrito à mão.
-- **Atualizado:** 2026-11-15 | provado: remoto = local (`git cherry @{u}` vazio), kit `93d4660` no GitHub (`gh api repos/rafa00oliveira/kit-construcao-apps/commits/main`), `ls docs/decisoes` = 001 | NÃO provado: seções de 07-13
+- **Atualizado:** 2026-11-15 | provado: remoto = local (`git cherry @{u}` vazio), kit `26ea11e` (v1.6, 16/11: lições da auditoria final do MRP pelo modelo mais forte) no GitHub (`gh api repos/rafa00oliveira/kit-construcao-apps/commits/main`), `ls docs/decisoes` = 001 | NÃO provado: seções de 07-13
 
 > **NUNCA colocar senha, token, chave de API ou dado bancário aqui.**
 
